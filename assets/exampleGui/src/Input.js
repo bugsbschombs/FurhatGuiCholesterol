@@ -43,6 +43,7 @@ class Input extends Component {
     this.props.onSave(this.props.label, this.state.value)
   }
 
+
   render() {
     let { label } = this.props
     return (

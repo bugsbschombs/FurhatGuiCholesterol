@@ -8497,8 +8497,6 @@ var _Slider2 = _interopRequireDefault(_Slider);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -8523,6 +8521,11 @@ var App = function (_Component) {
                 event_name: "ClickButton",
                 data: button
             });
+            // code to track time
+            _this.setState(_extends({}, _this.state, {
+                speaking: false
+            }));
+            // end added code to track time
         };
 
         _this.variableSet = function (variable, value) {
@@ -8550,21 +8553,24 @@ var App = function (_Component) {
         };
 
         _this.handleSaveInput = function (label, inputValue) {
-            var logMessage = 'User input (' + label + '): ' + inputValue;
-            _this.setState(function (prevState) {
-                return {
-                    logMessages: [].concat(_toConsumableArray(prevState.logMessages), [logMessage])
-                };
+            console.log('Sending input data: label=' + label + ', inputValue=' + inputValue); // Debugging log
+            _this.setState(_extends({}, _this.state, {
+                speaking: false
+            }));
+            _this.furhat.send({
+                event_name: "InputSaved",
+                data: {
+                    label: label,
+                    inputValue: inputValue
+                }
             });
-            console.log('User answer: ' + inputValue);
-            println('User answer: ' + inputValue);
         };
 
         _this.state = {
             "speaking": false,
             "buttons": [],
             "inputFields": [],
-            sliderPosition: 50, // Sarah adds: Initial slider position in the middle
+            sliderPosition: 89, // Sarah adds: Initial slider position in the middle
             logMessages: []
         };
         _this.furhat = null;
@@ -8582,7 +8588,7 @@ var App = function (_Component) {
                 _this2.setState(_extends({}, _this2.state, {
                     buttons: data.buttons,
                     inputFields: data.inputFields,
-                    sliderPosition: data.sliderPosition || 50 // Sarah adds anchor/slider position
+                    sliderPosition: data.sliderPosition || 0 // Sarah adds anchor/slider position
                 }));
             });
 
@@ -8607,6 +8613,16 @@ var App = function (_Component) {
 
 
         // safe input from free text field
+        //    handleSaveInput = (label, inputValue) => {
+        //        const logMessage = `User input (${label}): ${inputValue}`;
+        //        this.setState(prevState => ({
+        //            logMessages: [...prevState.logMessages, logMessage]
+        //        }))
+        //        //console.log(`User answer: ${inputValue}`);
+        //        println(`User answer: ${inputValue}`);
+        //    }
+
+        // Print input from free text field to terminal
 
     }, {
         key: 'render',
@@ -8621,11 +8637,7 @@ var App = function (_Component) {
                     _react2.default.createElement(
                         _reactBootstrap.Col,
                         { sm: 12 },
-                        _react2.default.createElement(
-                            'h1',
-                            null,
-                            'Air Pollution'
-                        )
+                        _react2.default.createElement('h1', null)
                     )
                 ),
                 _react2.default.createElement(
@@ -8637,12 +8649,12 @@ var App = function (_Component) {
                         _react2.default.createElement(
                             'h2',
                             null,
-                            'Particulate Matter (PM)'
+                            'LDL Cholesterol'
                         ),
                         _react2.default.createElement(
                             'p',
                             { className: 'text-box' },
-                            'PM is a common proxy indicator for air pollution. It refers to inhalable particles, composed of sulphate, nitrates, ammonia, sodium chloride, black carbon, mineral dust or water. It is the most widely used indicator for assessing the health effects of exposure to air pollution. (see WHO)'
+                            'LDL Cholesterol is an important indicator of today\u2019s health. Low-density lipoprotein (LDL) cholesterol, commonly known as the \u201Cbad\u201D cholesterol, is responsible for transporting most of the cholesterol to cells. High levels of LDL in the bloodstream can cause blockages in blood vessels, leading to restricted blood flow. The body produces cholesterol naturally and uses it to build cells. Factors such as lack of physical activity, being overweight, smoking, or an unhealthy diet can increase LDL cholesterol.'
                         )
                     ),
                     _react2.default.createElement(
@@ -8651,20 +8663,75 @@ var App = function (_Component) {
                         _react2.default.createElement(
                             'h2',
                             null,
-                            'Air Pollution Explorer'
+                            'Data Explorer'
+                        ),
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            ' Please take 2-3 minutes to explore the different levels of LDL Cholesterol, using the slider below. The data will be presented visually.'
                         ),
                         _react2.default.createElement(_Slider2.default, { onSlide: this.handleSlide, initialValue: this.state.sliderPosition }),
-                        _react2.default.createElement(_Input2.default, { label: 'How would you describe the air pollution when PM.25 reaches a level of x?', onSave: this.handleSaveInput }),
                         _react2.default.createElement(
                             'div',
-                            null,
-                            this.state.logMessages.map(function (message, index) {
-                                return _react2.default.createElement(
-                                    'p',
-                                    { key: index },
-                                    message
-                                );
-                            })
+                            { className: 'input-wrapper' },
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                ' Please answer the following questions:'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'input-wrapper' },
+                                _react2.default.createElement(_Input2.default, { label: 'Looking at the visualisation, how do you interpret the level of  110 mg/dL LDL cholesterol? Please describe in your own words.', onSave: this.handleSaveInput }),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    this.state.logMessages.map(function (message, index) {
+                                        return _react2.default.createElement(
+                                            'p',
+                                            { key: index },
+                                            message
+                                        );
+                                    })
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'input-wrapper' },
+                            _react2.default.createElement(_Input2.default, { label: 'Looking at the visualisation, how do you interpret the level of  170 mg/dL LDL cholesterol? Please describe in your own words.', onSave: this.handleSaveInput }),
+                            _react2.default.createElement(
+                                'div',
+                                null,
+                                this.state.logMessages.map(function (message, index) {
+                                    return _react2.default.createElement(
+                                        'p',
+                                        { key: index },
+                                        message
+                                    );
+                                })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'input-wrapper' },
+                            _react2.default.createElement(_Input2.default, { label: 'What observations did you make as you moved the slider from left to right and how did you interpret them?', onSave: this.handleSaveInput }),
+                            _react2.default.createElement(
+                                'div',
+                                null,
+                                this.state.logMessages.map(function (message, index) {
+                                    return _react2.default.createElement(
+                                        'p',
+                                        { key: index },
+                                        message
+                                    );
+                                })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'button-wrapper' },
+                            _react2.default.createElement(_Button2.default, { label: 'Done', speaking: this.state.speaking, onClick: this.clickButton })
                         )
                     )
                 )
@@ -8674,37 +8741,6 @@ var App = function (_Component) {
 
     return App;
 }(_react.Component);
-
-//    render() {
-//    //console.log('App component is rendering'); // Sarah Add console log to verify rendering
-//        return (
-//            <Grid>
-//                <Row>
-//                    <Col sm={12}>
-//                        <h1>Air Pollution</h1>
-//                    </Col>
-//                </Row>
-//                <Row>
-//                    <Col sm={6}>
-//                        <h2>TEST</h2>
-//                        {this.state.buttons.map((label) =>
-//                            <Button key={label} label={label} onClick={this.clickButton} speaking={this.state.speaking} />
-//                        )}
-//                    </Col>
-//                    <Col sm={6}>
-//                        <h2>TEST TEST TEST</h2>
-//                        {this.state.inputFields.map((label) =>
-//                            <Input key={label} label={label} onSave={this.variableSet} speaking={this.state.speaking} />
-//                        )}
-//                        <h2>Particulate matter (PM)</h2>
-//                        <p>PM is a common proxy indicator for air pollution.</p>
-//                        <Slider onSlide={this.handleSlide} initialValue={this.state.sliderPosition} />
-//                    </Col>
-//                </Row>
-//            </Grid>
-//        )
-//    }
-//}
 
 exports.default = App;
 
@@ -8994,7 +9030,7 @@ var Slider = function (_Component) {
     };
 
     _this.state = {
-      value: props.initialValue || 50
+      value: props.initialValue || 89
     };
     return _this;
   }
@@ -9014,25 +9050,33 @@ var Slider = function (_Component) {
           _react2.default.createElement(
             'span',
             null,
-            'PM2.5 < 50.4 \u03BCg/m3'
+            '89 mg/dL'
           ),
           _react2.default.createElement(
             'span',
             null,
-            'PM2.5 > 50.4 \u03BCg/m3'
+            '210 mg/dL'
           )
         ),
         _react2.default.createElement('input', {
           type: 'range',
-          min: '0',
-          max: '100',
-          value: value,
+          min: '89',
+          max: '210' // 225 for experiment with Air Pollution
+          , value: value,
           onChange: this.handleChange,
           onMouseUp: this.handleMouseUp,
           style: {
             width: '100%'
           } // Ensure the slider takes the full width
-        })
+        }),
+        _react2.default.createElement(
+          'div',
+          { style: { textAlign: 'center', marginTop: '10px' } },
+          'Current value: ',
+          value,
+          ' mg/dL'
+        ),
+        _react2.default.createElement('div', { style: { height: '20px' } })
       );
     }
   }]);

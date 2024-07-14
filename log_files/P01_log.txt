@@ -1,0 +1,21 @@
+Slider value: 118, Mapped character: SicknessNearOptII/SicknessNearOptII1
+Slider value: 151, Mapped character: SicknessBorderlineIII/SicknessBorderlineIII1
+Slider value: 187, Mapped character: SicknessHigh/SicknessHigh6
+Slider value: 105, Mapped character: SicknessNearOptI/SicknessNearOptI1
+Slider value: 116, Mapped character: SicknessNearOptII/SicknessNearOptII1
+Slider value: 152, Mapped character: SicknessBorderlineIII/SicknessBorderlineIII1
+Slider value: 191, Mapped character: SicknessHigh/SicknessHigh7
+Slider value: 99, Mapped character: SicknessOptimal/SicknessOptimal1
+User input (Looking at the visualisation, please describe in your own words the amount of LDL Cholesterol represented by a slider value of 110 mg/dL? How do you interpret this level of Cholesterol?): test
+User input (Comparing the visualisation at slider values of 110 mg/dL and 170 mg/dL, what differences do you notice, and what do these differences tell you about the corresponding levels of Cholesterol?): test
+User input (Comparing the visualisation at slider values of 110 mg/dL and 170 mg/dL, what differences do you notice, and what do these differences tell you about the corresponding levels of Cholesterol?): test 2
+Time spent on GUI: 40 seconds
+Done: Cholesterol
+Slider value: 59, Mapped character: AirUnhealthy/AirUnhealthy2
+Slider value: 76, Mapped character: AirUnhealthy/AirUnhealthy2
+Slider value: 185, Mapped character: AirHazard/AirHazard4
+Slider value: 210, Mapped character: AirHazard/AirHazard5
+User input (Looking at the visualisation, please describe in your own words the amount of particulate matter represented by a slider value of 20 μg/m³? How do you interpret this level of PM2.5?): test
+User input (Comparing the visualisation at slider values of 20 μg/m³ and 80 μg/m³, what differences do you notice, and what do these differences tell you about the corresponding levels of PM2.5?): test
+Time spent on GUI: 18 seconds
+Done: Cholesterol
